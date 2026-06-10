@@ -1,4 +1,8 @@
-<!-- Código gerado com IA (Gemini), em Junho de 2026. Revisado por um humano. -->
+<!-- 
+ - Código gerado com IA (Gemini)
+ - Junho de 2026
+ - Revisado por um humano
+-->
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -7,6 +11,7 @@
     <title>Alcoól e Drogas: Combate ao uso na adolescência</title>
     <link rel="stylesheet" href="style/reset.css">
     <link rel="stylesheet" href="style/style.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=close,menu" />
 </head>
 <body>
     <header>
@@ -67,6 +72,11 @@
         </article>
     </main>
 
+    <button id="btn-menu" aria-label="Abrir menu lateral" aria-expanded="false">
+        <span class="material-symbols-outlined">menu</span>
+    </button>
+    <div id="overlay-menu" aria-hidden="true"></div>
+
     <aside>
         <h3>Navegação Rápida</h3>
         <ul>
@@ -86,5 +96,36 @@
         <p>Desenvolvido para o projeto do <strong>Senac</strong> da turma de <strong>Serviços Administrativos</strong> (Código da Turma: <strong>2026.2.86</strong>)</p>
         <p>&copy; 2026 Senac. Todos os direitos reservados.</p>
     </footer>
+
+    <script>
+        const btnMenu = document.getElementById('btn-menu');
+        const menuLateral = document.querySelector('aside');
+        const overlay = document.getElementById('overlay-menu');
+        const icone = btnMenu.querySelector('.material-symbols-outlined');
+        const links = menuLateral.querySelectorAll('a');
+
+        function abrirMenu() {
+            menuLateral.classList.add('aberto');
+            overlay.classList.add('visivel');
+            btnMenu.setAttribute('aria-expanded', 'true');
+            icone.textContent = 'close';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function fecharMenu() {
+            menuLateral.classList.remove('aberto');
+            overlay.classList.remove('visivel');
+            btnMenu.setAttribute('aria-expanded', 'false');
+            icone.textContent = 'menu';
+            document.body.style.overflow = '';
+        }
+
+        btnMenu.addEventListener('click', () => {
+            menuLateral.classList.contains('aberto') ? fecharMenu() : abrirMenu();
+        });
+
+        overlay.addEventListener('click', fecharMenu);
+        links.forEach(link => link.addEventListener('click', fecharMenu));
+    </script>
 </body>
 </html>
