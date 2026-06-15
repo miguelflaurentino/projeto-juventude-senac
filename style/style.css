@@ -4,16 +4,24 @@
  - Revisado por um humano
 */
 
+/* ─── OTIMIZAÇÃO E MODERNIZAÇÃO DE ESTILOS ───────────────────
+ - Baseado estritamente em variables.css e reset.css
+ - Adaptação 100% responsiva (Mobile-first para Desktop)
+ - Suporte nativo a Light/Dark Mode automático via CSS Variables
+──────────────────────────────────────────────────────────── */
+
 @import "variables.css";
 
-/* ─── 1. Base ───────────────────────────────────── */
+/* ─── 1. BASE & SCROLLBAR REFINADA ───────────────────────── */
 
 html {
   scroll-behavior: smooth;
+  font-size: 100%;
 }
 
+/* Customização minimalista e moderna da barra de rolagem */
 ::-webkit-scrollbar {
-  width: 6px;
+  width: 8px;
 }
 
 ::-webkit-scrollbar-track {
@@ -21,12 +29,14 @@ html {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--cor-primaria-clara);
-  border-radius: 3px;
+  background: var(--cor-secundaria);
+  border-radius: var(--raio-lg);
+  border: 2px solid var(--cor-fundo-alt);
+  transition: var(--transicao);
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--cor-primaria);
+  background: var(--cor-primaria-clara);
 }
 
 body {
@@ -34,49 +44,76 @@ body {
   color: var(--cor-texto);
   font-family: var(--fonte-base);
   font-size: var(--texto-base);
-  line-height: 1.6;
+  line-height: 1.7;
   min-height: 100vh;
-  transition:
-    background-color var(--transicao),
-    color var(--transicao);
+  transition: background-color var(--transicao), color var(--transicao);
 }
 
-h1,
-h2,
-h3,
-h4 {
+/* ─── 2. TIPOGRAFIA AVANÇADA ─────────────────────────────── */
+
+h1, h2, h3, h4 {
   font-family: var(--fonte-titulo);
   color: var(--cor-titulo);
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  margin-bottom: var(--espaco-sm);
+  letter-spacing: 0.03em;
+  font-weight: 700;
 }
 
-a {
-  color: var(--cor-primaria);
-  text-decoration: none;
-  transition: var(--transicao);
-  position: relative;
-}
+h1 { text-transform: uppercase; }
+h2 { font-weight: 300; }
 
-a:hover {
+h3 {
+  font-size: var(--texto-h3);
   color: var(--cor-titulo);
+  margin-bottom: var(--espaco-md);
+  border-left: 5px solid var(--cor-primaria);
+  padding-left: var(--espaco-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+h4 {
+  font-size: var(--texto-base);
+  color: var(--cor-primaria);
+  margin-top: var(--espaco-sm);
+  margin-bottom: var(--espaco-xs);
+  text-transform: uppercase;
+  font-weight: 700;
 }
 
 p {
-  max-width: 70ch;
+  max-width: 75ch;
+  margin-bottom: var(--espaco-sm);
+  opacity: 0.95;
+}
+
+p:last-child {
+  margin-bottom: 0;
 }
 
 strong {
   color: var(--cor-primaria);
+  font-weight: 700;
 }
 
-@keyframes fade-up {
-  from { opacity: 0; transform: translateY(24px); }
-  to { opacity: 1; transform: translateY(0); }
+em {
+  font-style: italic;
+  opacity: 0.8;
+  font-size: var(--texto-sm);
 }
 
-/* ─── 2. Layout ─────────────────────────────────── */
+/* Animação suave para carregamento de conteúdo */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ─── 3. ESTRUTURA DE LAYOUT (GRID ASSIMÉTRICO) ──────────── */
 
 body {
   display: grid;
@@ -85,184 +122,277 @@ body {
     "inicio"
     "principal"
     "rodape";
+  grid-template-columns: 1fr;
 }
 
-header {
-  grid-area: cabecalho;
-}
-
-section#inicio {
-  grid-area: inicio;
-}
+header { grid-area: cabecalho; }
+section#inicio { grid-area: inicio; }
+main { grid-area: principal; }
+footer { grid-area: rodape; }
 
 main {
-  grid-area: principal;
   padding: var(--espaco-md);
   display: grid;
-  gap: var(--espaco-lg);
+  grid-template-columns: 1fr;
+  gap: var(--espaco-md);
+  max-width: var(--largura-max);
+  margin: 0 auto;
+  width: 100%;
 }
 
-aside {
-  position: fixed;
-  top: 0;
-  right: 0;
-  height: 100dvh;
-  width: min(300px, 85vw);
-  padding: var(--espaco-md);
-  transform: translateX(100%);
-  transition: transform var(--transicao);
-  z-index: var(--z-menu-lateral);
-  overflow-y: auto;
-}
-
-aside.aberto {
-  transform: translateX(0);
-}
-
-footer {
-  grid-area: rodape;
-}
-
-@media (min-width: 1024px) {
-  body {
-    grid-template-columns: 1fr 280px;
-    grid-template-areas:
-      "cabecalho cabecalho"
-      "inicio inicio"
-      "principal barra-lateral"
-      "rodape rodape";
-    max-width: var(--largura-max);
-    margin: 0 auto;
-  }
-
-  aside {
-    position: sticky;
-    top: var(--espaco-lg);
-    height: fit-content;
-    width: auto;
-    transform: none;
-    grid-area: barra-lateral;
-    align-self: start;
-  }
-}
-
-/* ─── 3. Cabeçalho ───────────────────────────────── */
+/* ─── 4. HERO SECTION (CABEÇALHO DE ALTO IMPACTO) ────────── */
 
 header {
-  background: linear-gradient(135deg, hsl(142, 65%, 22%), hsl(162, 60%, 35%));
+  background: linear-gradient(135deg, hsl(140, 25%, 10%) 0%, var(--cor-primaria) 100%);
   color: var(--cor-texto-claro);
-  padding: var(--espaco-xl) var(--espaco-md) var(--espaco-lg);
-  animation: fade-up 0.6s ease-out both;
+  padding: var(--espaco-xl) var(--espaco-md);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  box-shadow: var(--sombra-md);
+}
+
+header::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 75% 25%, rgba(255, 255, 255, 0.04) 0%, transparent 60%);
+  pointer-events: none;
 }
 
 header h1 {
-  font-size: var(--texto-display);
-  line-height: 1;
+  font-size: var(--texto-h1);
   color: var(--cor-texto-claro);
   margin-bottom: var(--espaco-xs);
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
 }
 
 header h2 {
-  font-size: clamp(1rem, 3vw, var(--texto-h2));
-  color: hsl(142, 60%, 80%);
-  font-weight: 300;
-  font-style: italic;
-  text-transform: none;
-  letter-spacing: 0.02em;
-  margin-bottom: 0;
+  font-size: var(--texto-base);
+  color: var(--cor-texto-claro);
+  opacity: 0.75;
+  max-width: 60ch;
+  margin: 0 auto;
+  letter-spacing: 0.05em;
 }
 
-/* ─── 4. Início ──────────────────────────────────── */
+/* ─── 5. INTRODUÇÃO BANNER (INÍCIO) ──────────────────────── */
 
 section#inicio {
   background-color: var(--cor-fundo-alt);
-  padding: var(--espaco-lg) var(--espaco-md);
-  border-bottom: var(--border-style);
-  display: flex;
-  flex-direction: column;
-  gap: var(--espaco-sm);
+  padding: var(--espaco-md);
+  text-align: center;
+  border-bottom: 1px solid var(--cor-secundaria);
 }
 
-section#inicio h3 {
-  font-size: var(--texto-h3);
-  position: sticky;
-  top: 0;
-  z-index: var(--z-sticky);
-  background-color: var(--cor-fundo-alt);
-  padding: var(--espaco-sm) var(--espaco-md);
-  margin-inline: calc(-1 * var(--espaco-md));
-  border-bottom: 2px solid var(--cor-primaria);
-  margin-bottom: 0;
+section#inicio p {
+  font-size: clamp(var(--texto-base), 1.2rem, 1.3rem);
+  color: var(--cor-texto);
+  margin: 0 auto;
+  max-width: 85ch;
+  font-style: italic;
+  font-weight: 300;
 }
 
-/* ─── 5. Artigos ─────────────────────────────────── */
+/* ─── 6. CARDS DE ARTIGOS (CONCEITO MODERNO) ─────────────── */
 
 article {
-  background: linear-gradient(135deg, var(--cor-fundo), var(--cor-fundo-alt));
+  background-color: var(--cor-fundo-alt);
   padding: var(--espaco-md);
   border-radius: var(--raio-lg);
   box-shadow: var(--sombra-sm);
-  border: 1px solid var(--cor-secundaria);
-  display: flex;
-  flex-direction: column;
-  gap: var(--espaco-sm);
-  animation: fade-up 0.6s ease-out both;
+  
+  /* MUDANÇA AQUI: Usa a nova variável de borda adaptativa */
+  border: var(--borda-card); 
+  
+  /* TOQUE DE ESTILO: Uma barrinha decorativa no topo do card (estilo o site de referência) */
+  border-top: 4px solid var(--cor-primaria); 
+  
+  position: relative;
+  overflow: hidden;
+  transition: transform var(--transicao), box-shadow var(--transicao), border-color var(--transicao);
+  animation: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
-article h3 {
-  font-size: var(--texto-h3);
-  position: sticky;
-  top: 0;
-  z-index: var(--z-sticky);
-  background-color: var(--cor-fundo);
-  padding: var(--espaco-sm) var(--espaco-md);
-  margin-inline: calc(-1 * var(--espaco-md));
-  border-bottom: 2px solid var(--cor-primaria);
-  margin-bottom: var(--espaco-sm);
+article:hover {
+  transform: translateY(-4px);
+  /* MUDANÇA AQUI: Agora o card ganha um leve "glow" colorido ao passar o mouse */
+  box-shadow: var(--sombra-glow); 
+  border-color: var(--cor-primaria-clara);
 }
 
+/* Listas Não Ordenadas (ul) com Marcadores Customizados */
 article ul {
   list-style: none;
-  display: flex;
-  flex-direction: column;
-  gap: var(--espaco-xs);
+  padding-left: 0;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--espaco-sm);
+  margin-top: var(--espaco-sm);
 }
 
 article ul li {
-  padding: var(--espaco-xs) var(--espaco-sm);
-  border-left: 3px solid var(--cor-secundaria);
-  transition:
-    border-color var(--transicao),
-    background-color var(--transicao);
+  position: relative;
+  padding-left: 28px;
+  color: var(--cor-texto);
 }
 
-article ul li:hover {
+article ul li::before {
+  content: "→";
+  position: absolute;
+  left: 4px;
+  top: 0;
+  color: var(--cor-primaria-clara);
+  font-weight: bold;
+  transition: transform var(--transicao);
+}
+
+article ul li:hover::before {
+  transform: translateX(4px);
+  color: var(--cor-primaria);
+}
+
+/* Listas Ordenadas (ol) com Emblemas Numéricos Modernos */
+article ol {
+  list-style: none;
+  counter-reset: passo-passo;
+  padding-left: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--espaco-sm);
+  margin-top: var(--espaco-sm);
+}
+
+article ol li {
+  counter-increment: passo-passo;
+  position: relative;
+  padding-left: 45px;
+  min-height: 32px;
+  display: flex;
+  align-items: center;
+}
+
+article ol li::before {
+  content: counter(passo-passo);
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: var(--cor-primaria);
+  color: var(--cor-texto-claro);
+  font-family: var(--fonte-titulo);
+  font-size: var(--texto-sm);
+  font-weight: bold;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--sombra-sm);
+  transition: var(--transicao);
+}
+
+article ol li:hover::before {
+  background-color: var(--cor-primaria-clara);
+  transform: translateY(-50%) scale(1.1);
+}
+
+/* ─── 7. ESTILIZAÇÃO COMPORTAMENTAL POR ID ───────────────── */
+
+/* Seção FAQ: Layout Limpo Estilo Accordion Aberto */
+#faq {
+  display: flex;
+  flex-direction: column;
+  gap: var(--espaco-md);
+}
+
+#faq div {
+  background-color: var(--cor-fundo-alt); /* Ligeiramente mais claro que o fundo geral */
+  padding: var(--espaco-md);
+  border-radius: var(--raio-md);
+  border: var(--borda-card);
+  border-left: 4px solid var(--cor-primaria); /* Linha lateral bem viva */
+  transition: var(--transicao);
+}
+
+#faq div:hover {
   border-left-color: var(--cor-primaria);
   background-color: var(--cor-fundo-alt);
-  border-radius: 0 var(--raio-md) var(--raio-md) 0;
+  transform: translateX(4px);
 }
 
-/* ─── 6. Barra Lateral ───────────────────────────── */
+#faq div strong {
+  display: block;
+  font-size: 1.15rem;
+  color: var(--cor-titulo);
+  margin-bottom: var(--espaco-xs);
+}
 
-.material-symbols-outlined {
-  font-family: 'Material Symbols Outlined';
-  font-weight: normal;
-  font-style: normal;
-  font-size: 24px;
-  line-height: 1;
+#faq div p {
+  font-size: var(--texto-base);
+  margin-bottom: 0;
+}
+
+/* Seção Emergência: Destaque de Atenção Crítica */
+#emergencia {
+  border: 2px dashed var(--cor-destaque);
+  background-color: rgba(200, 70, 45, 0.02);
+}
+
+@media (prefers-color-scheme: dark) {
+  #emergencia {
+    background-color: rgba(200, 70, 45, 0.06);
+  }
+}
+
+#emergencia h3 {
+  border-left-color: var(--cor-destaque);
+}
+
+#emergencia ol li::before {
+  background-color: var(--cor-destaque);
+}
+
+#emergencia p strong {
+  color: var(--cor-destaque);
   display: inline-block;
-  text-transform: none;
-  white-space: nowrap;
-  direction: ltr;
-  -webkit-font-feature-settings: 'liga';
-  font-feature-settings: 'liga';
-  -webkit-font-smoothing: antialiased;
-  font-variation-settings:
-    'FILL' 0,
-    'wght' 400,
-    'GRAD' 0,
-    'opsz' 24;
+  padding: var(--espaco-xs) var(--espaco-sm);
+  background-color: rgba(200, 70, 45, 0.08);
+  border-radius: var(--raio-md);
+  margin-top: var(--espaco-sm);
+  width: 100%;
+  text-align: center;
 }
+
+/* Seção de Apoio e Redes (Cards Separados) */
+#apoio ul {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--espaco-md);
+}
+
+#apoio ul li {
+  background-color: var(--cor-fundo-alt);
+  padding: var(--espaco-md);
+  border-radius: var(--raio-md);
+  border: var(--borda-card);
+  border-top: 3px solid var(--cor-primaria-clara); /* Destaca o topo do card de apoio */
+  box-shadow: var(--sombra-sm);
+  padding-left: var(--espaco-md);
+}
+
+#apoio ul li::before {
+  display: none; /* Remove seta decorativa nesta seção */
+}
+
+#apoio ul li strong {
+  display: block;
+  font-size: 1.2rem;
+  margin-bottom: var(--espaco-xs);
+}
+
+/* ─── 8. BOTÃO INTERATIVO & DRAWER LATERAL ────────────────── */
 
 #btn-menu {
   position: fixed;
@@ -272,28 +402,27 @@ article ul li:hover {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 48px;
-  height: 48px;
+  width: 50px;
+  height: 50px;
   border: none;
   border-radius: 50%;
   background-color: var(--cor-primaria);
   color: var(--cor-texto-claro);
   cursor: pointer;
   box-shadow: var(--sombra-md);
-  transition:
-    background-color var(--transicao),
-    transform var(--transicao);
+  transition: background-color var(--transicao), transform var(--transicao);
 }
 
 #btn-menu:hover {
   background-color: var(--cor-primaria-clara);
-  transform: scale(1.08);
+  transform: scale(1.05);
 }
 
 #overlay-menu {
   position: fixed;
   inset: 0;
-  background-color: hsl(0 0% 0% / 0.5);
+  background-color: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(4px);
   z-index: var(--z-overlay);
   opacity: 0;
   pointer-events: none;
@@ -305,125 +434,199 @@ article ul li:hover {
   pointer-events: auto;
 }
 
+/* Painel de Navegação Lateral (Mobile Drawer) */
 aside {
+  position: fixed;
+  top: 0;
+  right: 0;
+  height: 100dvh;
+  width: min(320px, 85vw);
+  padding: var(--espaco-lg) var(--espaco-md) var(--espaco-md);
   background-color: var(--cor-sidebar-fundo);
   color: var(--cor-sidebar-texto);
-  border-radius: var(--raio-md) 0 0 var(--raio-md);
-  transition:
-    background-color var(--transicao),
-    color var(--transicao),
-    transform var(--transicao);
+  transform: translateX(100%);
+  transition: transform var(--transicao);
+  z-index: var(--z-menu-lateral);
+  overflow-y: auto;
+  box-shadow: -5px 0 30px rgba(0, 0, 0, 0.25);
+}
+
+aside.aberto {
+  transform: translateX(0);
 }
 
 aside h3 {
   color: var(--cor-primaria-clara);
   font-size: var(--texto-sm);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  border-bottom: 2px solid rgba(255, 255, 255, 0.15);
   padding-bottom: var(--espaco-xs);
+  margin-top: var(--espaco-md);
   margin-bottom: var(--espaco-sm);
+  border-left: none;
+  padding-left: 0;
+  letter-spacing: 0.1em;
+}
+
+aside h3:first-of-type {
+  margin-top: 0;
 }
 
 aside ul {
   list-style: none;
+  padding: 0;
   display: flex;
   flex-direction: column;
   gap: var(--espaco-xs);
-  margin-bottom: var(--espaco-lg);
 }
 
 aside ul li {
-  padding: var(--espaco-xs) 0;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 0;
+  border: none;
 }
-
-aside ul li:last-child {
-  border-bottom: none;
-}
+aside ul li::before { display: none; }
 
 aside a {
-  display: inline-block;
+  display: block;
+  padding: var(--espaco-xs) var(--espaco-sm);
   color: var(--cor-sidebar-texto);
+  font-family: var(--fonte-titulo);
   font-size: var(--texto-sm);
   text-transform: uppercase;
   letter-spacing: 0.05em;
+  border-radius: var(--raio-sm);
   transition: var(--transicao);
 }
 
 aside a:hover {
+  background-color: rgba(255, 255, 255, 0.05);
   color: var(--cor-primaria-clara);
-  transform: translateX(4px);
+  padding-left: var(--espaco-md);
 }
 
 aside p {
   font-size: var(--texto-sm);
-  opacity: 0.8;
-  max-width: 100%;
+  opacity: 0.75;
+  line-height: 1.6;
 }
 
-/* ─── 7. Rodapé & Navegação ──────────────────────── */
+/* ─── 9. RODAPÉ INSTITUCIONAL COESO ──────────────────────── */
 
 footer {
   background-color: var(--cor-footer-fundo);
   color: var(--cor-footer-texto);
+  padding: var(--espaco-xl) var(--espaco-md);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--espaco-md);
+  margin-top: var(--espaco-xl);
+  border-top: 3px solid var(--cor-primaria);
   text-align: center;
-  padding: var(--espaco-lg) var(--espaco-md);
-  border-top: var(--border-style);
+}
+
+footer p { margin-bottom: 0; }
+
+.footer-contatos {
+  background-color: rgba(255, 255, 255, 0.02);
+  padding: var(--espaco-md);
+  border-radius: var(--raio-md);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  width: 100%;
+  max-width: 600px;
+}
+
+.footer-contatos p strong {
+  color: var(--cor-primaria-clara);
+  font-size: var(--texto-base);
+  display: block;
+  margin-bottom: var(--espaco-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.footer-institucional {
+  opacity: 0.8;
+  font-size: var(--texto-sm);
   display: flex;
   flex-direction: column;
   gap: var(--espaco-xs);
 }
 
-footer p {
-  font-size: var(--texto-sm);
-  max-width: 100%;
+.footer-institucional strong {
+  color: var(--cor-texto-claro);
 }
 
-footer strong {
-  color: var(--cor-primaria-clara);
-}
+/* ─── 10. MEDIA QUERIES (RESPONSIVIDADE PREMIUM) ─────────── */
 
-/* ─── 8. Responsividade & Efeitos ────────────────── */
-
+/* Tablets (A partir de 768px) */
 @media (min-width: 768px) {
+  main {
+    padding: var(--espaco-lg) var(--espaco-md);
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--espaco-lg);
+  }
+
+  /* Seções de leitura expandida tomam duas colunas para equilibrar o grid */
+  #recuperacao, #faq, #emergencia, #apoio {
+    grid-column: span 2;
+  }
+
+  #apoio ul {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
   header {
     padding: var(--espaco-xl) var(--espaco-lg);
   }
-
-  section#inicio {
-    padding: var(--espaco-lg);
-  }
-
-  main {
-    grid-template-columns: 1fr 1fr;
-    padding: var(--espaco-lg);
-  }
-
-  main article:first-child {
-    grid-column: 1 / -1;
-  }
-
-  aside {
-    padding: var(--espaco-lg);
-  }
 }
 
+/* Desktops e Telas Grandes (A partir de 1024px) */
 @media (min-width: 1024px) {
-  section#inicio {
-    padding: var(--espaco-xl) var(--espaco-lg);
+  body {
+    grid-template-columns: 1fr 300px;
+    grid-template-areas:
+      "cabecalho cabecalho"
+      "inicio inicio"
+      "principal barra-lateral"
+      "rodape rodape";
   }
 
   main {
-    grid-template-columns: 1fr;
-    padding: var(--espaco-xl) var(--espaco-lg);
+    grid-area: principal;
+    grid-template-columns: repeat(2, 1fr);
+    padding: var(--espaco-xl) var(--espaco-md);
+    margin-right: 0;
   }
 
+  #recuperacao, #faq, #emergencia, #apoio {
+    grid-column: span 2;
+  }
+
+  /* Desativa os controladores mobile do menu lateral */
   #btn-menu,
   #overlay-menu {
     display: none;
   }
 
+  /* Fixa o menu lateral permanentemente na direita (Efeito Sticky de Dashboard) */
   aside {
-    padding: var(--espaco-lg);
-    border-radius: var(--raio-md);
+    grid-area: barra-lateral;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    width: 300px;
+    transform: none;
+    box-shadow: -1px 0 0px rgba(0, 0, 0, 0.03);
+    border-left: 1px solid rgba(255, 255, 255, 0.05);
+    padding: var(--espaco-xl) var(--espaco-md) var(--espaco-md);
+    border-radius: 0;
+  }
+
+  aside a {
+    padding-left: 0;
+  }
+  
+  aside a:hover {
+    padding-left: var(--espaco-sm);
   }
 }

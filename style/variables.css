@@ -25,6 +25,10 @@
   --cor-footer-fundo: hsl(140, 25%, 10%);
   --cor-footer-texto: hsl(120, 20%, 98%);
 
+  --borda-card: 1px solid rgba(0, 0, 0, 0.05);
+  --borda-top-decorativa: linear-gradient(90deg, var(--cor-primaria), var(--cor-destaque));
+  --sombra-glow: 0 8px 24px -4px hsl(142 60% 32% / 0.15);
+
   --fonte-base: "Lora", serif;
   --fonte-titulo: "Oswald", sans-serif;
 
@@ -63,22 +67,34 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --cor-fundo: hsl(150, 20%, 6%);
-    --cor-fundo-alt: hsl(150, 18%, 10%);
-    --cor-texto: hsl(140, 20%, 95%);
-    --cor-titulo: hsl(140, 20%, 95%);
-    --cor-primaria: hsl(142, 55%, 45%);
-    --cor-primaria-clara: hsl(142, 55%, 60%);
-    --cor-secundaria: hsl(142, 20%, 18%);
-    --cor-destaque: hsl(200, 65%, 50%);
+    /* Fundo rico em tom esmeralda escuro, abandonando o cinza morto */
+    --cor-fundo: hsl(155, 28%, 8%);
+    --cor-fundo-alt: hsl(155, 22%, 13%);
+    --cor-texto: hsl(140, 25%, 94%);
+    --cor-titulo: hsl(140, 30%, 96%);
+    
+    /* Tons verdes muito mais luminosos e elétricos para destacar no escuro */
+    --cor-primaria: hsl(145, 75%, 45%);
+    --cor-primaria-clara: hsl(145, 90%, 65%);
+    
+    /* Secundária usada para preenchimentos internos e detalhes de listas */
+    --cor-secundaria: hsl(150, 40%, 22%);
+    
+    /* Contraste Quente: Um coral/âmbar elétrico incrível para cortar a monotonia do verde */
+    --cor-destaque: hsl(14, 95%, 60%); 
     --cor-texto-claro: hsl(0, 0%, 100%);
 
-    --cor-sidebar-fundo: hsl(150, 18%, 9%);
-    --cor-sidebar-texto: hsl(140, 20%, 95%);
+    --cor-sidebar-fundo: hsl(155, 26%, 10%);
+    --cor-sidebar-texto: hsl(140, 25%, 94%);
 
-    --cor-footer-fundo: hsl(150, 18%, 9%);
-    --cor-footer-texto: hsl(140, 20%, 95%);
+    --cor-footer-fundo: hsl(155, 26%, 9%);
+    --cor-footer-texto: hsl(140, 25%, 94%);
 
-    --border-style: 2px solid var(--cor-titulo);
+    /* Variáveis de estilo que ganham luminescência sutil no escuro */
+    --borda-card: 1px solid rgba(145, 255, 185, 0.15);
+    --borda-top-decorativa: linear-gradient(90deg, var(--cor-primaria), var(--cor-primaria-clara));
+    --sombra-glow: 0 10px 30px -5px rgba(145, 255, 185, 0.18);
+    
+    --border-style: 2px solid var(--cor-primaria);
   }
 }
